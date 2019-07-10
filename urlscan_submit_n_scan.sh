@@ -7,7 +7,7 @@
 # Assign output file
 RESULTS="urlscan_submit_status.txt"
 
-# Fill iny your own API key from urlsca
+# Fill in your own API key from urlscan
 API=""
 
 # Clear output file before beginning
