@@ -6,10 +6,10 @@
 DATE=$(date +"%Y-%m-%d")
 
 # Output file for samples to be downloaded
-RESULTS="/root/urlscan_badfiles.txt"
+RESULTS="~/urlscan_badfiles.txt"
 
 # Temporary output file for storing URLScan result IDs
-TMP="/root/temp_urlscan_badfilesearch.txt"
+TMP="~/temp_urlscan_badfilesearch.txt"
 
 # Only variable passed with the script is the file extension you want to hunt (exe, dll, php, etc), and then lower case the file extension for use in the API call and file naming
 EXT=$1
@@ -23,10 +23,10 @@ EXT=${EXT,,}
 # https://urlscan.io/api/v1/search/?q=filename:.exe&size=500
 
 # curl the URLScan API for any results with a filename containing the selected extension, up to 1000 search results. (Feel free to change this if you need, I've found around 251 works just as well.) Also output to a holding json file.
-curl -o "/root/findings.json" "https://urlscan.io/api/v1/search/?q=filename:."$EXT"&size=1001"
+curl -o "~/findings.json" "https://urlscan.io/api/v1/search/?q=filename:."$EXT"&size=1001"
 
 # Take the json file and parse to find any scans that have been marked 'public,' contain the selected file extension, and are within today's date. Then output the URLScan scan results and the original url to the same line, but separate for unique original URLs only.
-cat "/root/findings.json" | jq '.results[] | select(.task.visibility =="public") | select (.task.url | contains(".'$EXT'")) | select(.task.time | contains("'$DATE'")) | "\(.result) \(.task.url)"' -r | sort -uk2,2 > "$TMP"
+cat "~/findings.json" | jq '.results[] | select(.task.visibility =="public") | select (.task.url | contains(".'$EXT'")) | select(.task.time | contains("'$DATE'")) | "\(.result) \(.task.url)"' -r | sort -uk2,2 > "$TMP"
 
 # While reading the URLScan scan URLs and original URLs, curl the URLScan results to see if the scan was 'public,' and if there were any confirmed malicious results. If the scan was both public and malicious, output the original URL and the malicious file SHA256 to the same line in a new file.
 while read first second; do
