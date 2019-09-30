@@ -1,5 +1,5 @@
 #!/bin/bash
-# Automating the search and download of bad files to download from public URLScan submissions.
+# Automating the search and download of bad files from public URLScan submissions.
 # Author: Lauren Proehl
 
 # Grabs system date for finding closest API search matches
