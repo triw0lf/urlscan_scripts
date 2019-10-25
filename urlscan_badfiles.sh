@@ -35,5 +35,7 @@ done < "$TMP"
 # While reading all confirmed malicious URLs and URLScan IDs, wget the original URL to try to download the malicious file. If first connection succesful, output the file name as the URLScan IDs paired with the selected extension. If first connection is not succesful, attempt connection up to 5 times, with a 3 second wait in between each retry attempt. 
 # Also leverages the '--retry-connrefused' flag in an attempt to catch intermittently unavailable websites.
 while read first second; do
-	wget -O "$second"."$EXT" --tries=5  --waitretry=3 --retry-connrefused "$first"
+	wget --header='User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' \
+	--header='Accept-Encoding: compress, gzip' --header='Accept-Language: en-US,en;q=0.5' \
+	-O "$second"."$EXT" --tries=3  --waitretry=3 --retry-connrefused "$first"
 done < "$RESULTS"
